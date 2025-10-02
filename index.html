@@ -169,8 +169,8 @@
               ${(brand1Label||brand2Label||website)?`<div style="margin-top:6px">${brand1Label&&brand1Href?`<a href="${brand1Href}" style="color:#000;text-decoration:underline;font-weight:700">${esc(brand1Label)}</a>`:''}${brand1Label&&brand2Label?` | `:''}${brand2Label&&brand2Href?`<a href="${brand2Href}" style="color:#000;text-decoration:underline;font-weight:700">${esc(brand2Label)}</a>`:''}${(!brand1Label&&!brand2Label&&website)?`<a href="${website}" style="color:#000;text-decoration:underline">${esc(website).replace(/^https?:\/\//,'')}</a>`:''}</div>`:''}
             </div>
             ${(cta1Label||cta2Label)?`<div style="margin-top:10px">
-              ${cta1Label&&cta1Href?`<a href="${cta1Href}" style="display:inline-block;border:1px solid #000;padding:8px 12px;border-radius:6px;color:#000;font-size:13px;text-decoration:none;margin-right:8px">${esc(cta1Label)}</a>`:''}
-              ${cta2Label&&cta2Href?`<a href="${cta2Href}" style="display:inline-block;border:1px solid #000;padding:8px 12px;border-radius:6px;color:#000;font-size:13px;text-decoration:none;">${esc(cta2Label)}</a>`:''}
+              ${cta1Label&&cta1Href?`<a href="${cta1Href}" style="display:inline-block;border:1px solid #000;padding:8px 12px;border-radius:6px;color:#000;font-size:13px;font-weight:700;text-decoration:none;margin-right:8px">${esc(cta1Label)}</a>`:''}
+              ${cta2Label&&cta2Href?`<a href="${cta2Href}" style="display:inline-block;border:1px solid #000;padding:8px 12px;border-radius:6px;color:#000;font-size:13px;font-weight:700;text-decoration:none;">${esc(cta2Label)}</a>`:''}
             </div>`:''}
           </td>
         </tr>
