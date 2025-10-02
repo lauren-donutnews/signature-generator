@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DPM Signature Generator</title>
+  <!-- UI styles (generator only) -->
+  <style>
+    :root { --bg:#0b0c10; --card:#15181d; --muted:#9aa4b2; --acc:#42b0ff; --acc2:#ff6b6b; }
+    html,body{margin:0;height:100%;background:var(--bg);color:#e8eef6;font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+    .wrap{max-width:980px;margin:40px auto;padding:24px}
+    .card{background:var(--card); border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.25); overflow:hidden}
+    .header{padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .title{font-weight:700;font-size:18px}
+    .muted{color:var(--muted)}
+    .grid{display:grid;gap:18px;padding:24px}
+    @media(min-width:900px){.grid{grid-template-columns: 1.2fr .8fr}}
+    label{font-weight:600;font-size:13px;color:#c9d4e5}
+    input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;background:#0e1116;border:1px solid #2a3140;color:#e8eef6;outline:none}
+    input::placeholder, textarea::placeholder{color:#61708a}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .btns{display:flex;gap:10px;flex-wrap:wrap}
+    button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:var(--acc);color:#061018;font-weight:700}
+    button.sec{background:#2a3140;color:#e8eef6}
+    button.warn{background:var(--acc2); color:#fff}
+    .preview-wrap{background:#0e1116;border-top:1px solid #212837;padding:0 24px 24px}
+    .sigframe{width:100%;min-height:260px;background:#fff;border-radius:12px;overflow:auto;border:1px solid #e3e7ee}
+    .small{font-size:12px}
+    .code{white-space:pre-wrap;background:#0e1116;border:1px dashed #2a3140;padding:12px;border-radius:10px;color:#d9e3f5}
+    .hint{padding:8px 12px;border:1px solid #2a3140;border-radius:10px;background:#10141b}
+    a{color:#88c8ff}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="header"><div class="title">DONUT / Press — Email Signature Generator</div><div class="muted">Mac Mail & Outlook‑friendly (table + inline CSS)</div></div>
+      <div class="grid">
+        <div>
+          <div class="row">
+            <div>
+              <label>Full name</label>
+              <input id="name" placeholder="Lauren Oellermann" />
+            </div>
+            <div>
+              <label>Title</label>
+              <input id="title" placeholder="Operations Manager" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Company</label>
+              <input id="company" placeholder="DONUT / Press Sports" />
+            </div>
+            <div>
+              <label>Website</label>
+              <input id="website" placeholder="https://thedonut.co" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Email</label>
+              <input id="email" placeholder="lauren@thedonut.co" />
+            </div>
+            <div>
+              <label>Phone</label>
+              <input id="phone" placeholder="(512) 555‑0123" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Brand color (hex)</label>
+              <input id="brandColor" placeholder="#0EB1FF" />
+            </div>
+            <div>
+              <label>Accent color (hex)</label>
+              <input id="accentColor" placeholder="#FF5F5F" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Logo (URL)</label>
+              <input id="logoUrl" placeholder="https://example.com/logo.png" />
+            </div>
+            <div>
+              <label>Logo (upload for base64)</label>
+              <input id="logoFile" type="file" accept="image/*" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Headshot (URL, optional)</label>
+              <input id="headUrl" placeholder="https://example.com/headshot.jpg" />
+            </div>
+            <div>
+              <label>Headshot (upload for base64)</label>
+              <input id="headFile" type="file" accept="image/*" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>CTA #1 label</label>
+              <input id="cta1Label" placeholder="Schedule a Call" />
+            </div>
+            <div>
+              <label>CTA #1 link</label>
+              <input id="cta1Href" placeholder="https://calendly.com/yourlink" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>CTA #2 label</label>
+              <input id="cta2Label" placeholder="Webby Winner" />
+            </div>
+            <div>
+              <label>CTA #2 link</label>
+              <input id="cta2Href" placeholder="https://webbyawards.com/..." />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Instagram URL</label>
+              <input id="ig" placeholder="https://instagram.com/thedonutnews" />
+            </div>
+            <div>
+              <label>LinkedIn URL</label>
+              <input id="li" placeholder="https://linkedin.com/company/thedonut" />
+            </div>
+          </div>
+
+          <div class="btns" style="margin-top:8px">
+            <button id="build">Build signature</button>
+            <button class="sec" id="copyHtml">Copy HTML</button>
+            <button class="sec" id="copyRich">Copy Rich (HTML mime)</button>
+            <button class="warn" id="reset">Reset</button>
+          </div>
+          <p class="small muted hint" style="margin-top:10px">Tip: In Apple Mail, go to <b>Mail ▸ Settings ▸ Signatures</b>, add a new signature, then <b>uncheck</b> “Always match my default message font.” Paste into the right pane. For the most reliable images across clients, prefer hosted HTTPS image URLs instead of base64.</p>
+        </div>
+        <div>
+          <div class="muted small" style="margin-bottom:6px">Live preview (email white background)</div>
+          <div class="sigframe" id="preview"></div>
+          <div class="muted small" style="margin:12px 0 4px">HTML output</div>
+          <textarea id="htmlOut" class="code" rows="12" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="preview-wrap">
+        <details>
+          <summary class="muted" style="cursor:pointer;padding:14px 0">Implementation notes (why this works in Mac Mail & Outlook)</summary>
+          <div class="hint small">
+            • Tables + inline CSS only. No external fonts. Fixed image widths.
+            <br/>• Social/CTA are simple links (no gradient buttons) to avoid Outlook VML.
+            <br/>• Images should be hosted over HTTPS with cache headers. Base64 works in Apple Mail but is blocked/stripped in many clients (Gmail web, Outlook). Use base64 only for Apple‑Mail‑only teams.
+            <br/>• Use 2× retina image assets (e.g., 300×300 shown at width=150) for crispness.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s)=>document.querySelector(s);
+    const readAsDataURL = (file)=> new Promise((res,rej)=>{ if(!file) return res(""); const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.onerror=rej; fr.readAsDataURL(file); });
+
+    function esc(s=""){ return s.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+
+    function emailSignatureHTML({
+      name, title, company, website, email, phone, brandColor, accentColor,
+      logoSrc, headSrc, cta1Label, cta1Href, cta2Label, cta2Href, ig, li
+    }){
+      const brand = brandColor || '#0EB1FF';
+      const accent = accentColor || '#FF5F5F';
+
+      // Email-safe: table layout + inline CSS, no classes.
+      return `
+<!-- ===== DPM Signature (tables + inline CSS) ===== -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;width:100%;max-width:580px;font-family:Arial, Helvetica, sans-serif;color:#111;">
+  <tr>
+    <td style="padding:16px 0;border-bottom:4px solid ${brand};">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">
+        <tr>
+          ${headSrc ? `<td style="padding-right:14px;vertical-align:top"><img src="${headSrc}" alt="Headshot" width="76" style="display:block;border-radius:50%;width:76px;height:76px;object-fit:cover"/></td>` : ''}
+          <td style="vertical-align:top">
+            <div style="font-size:18px;line-height:1.2;font-weight:bold;color:#111;">${esc(name)}</div>
+            <div style="font-size:13px;color:#555;">${esc(title)}${company?` · ${esc(company)}`:''}</div>
+            <div style="height:8px"></div>
+            <div style="font-size:13px;color:#111;">
+              ${phone?`<span style="margin-right:12px">📞 <a href="tel:${esc(phone)}" style="color:#111;text-decoration:none">${esc(phone)}</a></span>`:''}
+              ${email?`<span style="margin-right:12px">✉️ <a href="mailto:${esc(email)}" style="color:#111;text-decoration:none">${esc(email)}</a></span>`:''}
+              ${website?`<span>🔗 <a href="${esc(website)}" style="color:${brand};text-decoration:none">${esc(website).replace(/^https?:\/\//,'')}</a></span>`:''}
+            </div>
+          </td>
+          ${logoSrc ? `<td style="vertical-align:top;text-align:right"><img src="${logoSrc}" alt="Logo" width="120" style="display:block;width:120px;height:auto"/></td>` : ''}
+        </tr>
+      </table>
+    </td>
+  </tr>
+  ${(cta1Label||cta2Label||ig||li)?`
+  <tr>
+    <td style="padding:10px 0 0">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">
+        <tr>
+          <td style="font-size:0;">
+            ${(cta1Label&&cta1Href)?`<a href="${cta1Href}" style="display:inline-block;border:1px solid ${brand};padding:8px 12px;border-radius:6px;color:${brand};font-size:13px;text-decoration:none;margin-right:8px">${esc(cta1Label)}</a>`:''}
+            ${(cta2Label&&cta2Href)?`<a href="${cta2Href}" style="display:inline-block;border:1px solid ${accent};padding:8px 12px;border-radius:6px;color:${accent};font-size:13px;text-decoration:none;margin-right:8px">${esc(cta2Label)}</a>`:''}
+            ${(ig)?`<a href="${ig}" style="display:inline-block;font-size:13px;color:#555;text-decoration:none;margin-right:8px">Instagram</a>`:''}
+            ${(li)?`<a href="${li}" style="display:inline-block;font-size:13px;color:#555;text-decoration:none">LinkedIn</a>`:''}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  `:''}
+  <tr><td style="height:10px"></td></tr>
+  <tr>
+    <td style="font-size:10px;color:#777;line-height:1.4">This signature may contain confidential information intended only for the recipient.</td>
+  </tr>
+</table>
+<!-- ===== /DPM Signature ===== -->
+      `.trim();
+    }
+
+    async function collect(){
+      const [logoB64, headB64] = await Promise.all([
+        readAsDataURL($('#logoFile').files[0]),
+        readAsDataURL($('#headFile').files[0])
+      ]);
+      const logoSrc = logoB64 || $('#logoUrl').value.trim();
+      const headSrc = headB64 || $('#headUrl').value.trim();
+
+      const html = emailSignatureHTML({
+        name: $('#name').value.trim(),
+        title: $('#title').value.trim(),
+        company: $('#company').value.trim(),
+        website: $('#website').value.trim(),
+        email: $('#email').value.trim(),
+        phone: $('#phone').value.trim(),
+        brandColor: $('#brandColor').value.trim(),
+        accentColor: $('#accentColor').value.trim(),
+        logoSrc, headSrc,
+        cta1Label: $('#cta1Label').value.trim(), cta1Href: $('#cta1Href').value.trim(),
+        cta2Label: $('#cta2Label').value.trim(), cta2Href: $('#cta2Href').value.trim(),
+        ig: $('#ig').value.trim(), li: $('#li').value.trim()
+      });
+
+      $('#htmlOut').value = html;
+      $('#preview').innerHTML = html;
+    }
+
+    $('#build').addEventListener('click', collect);
+    $('#reset').addEventListener('click', ()=>{ document.querySelectorAll('input,textarea').forEach(el=>{ if(el.type!=='file'){el.value='';} else { el.value=null; } }); $('#preview').innerHTML=''; $('#htmlOut').value=''; });
+
+    // Copy raw HTML
+    $('#copyHtml').addEventListener('click', async ()=>{
+      const html = $('#htmlOut').value || (await collect(), $('#htmlOut').value);
+      try { await navigator.clipboard.writeText(html); alert('HTML copied to clipboard.'); }
+      catch(e){ prompt('Copy the HTML below:', html); }
+    });
+
+    // Copy as rich HTML (MIME) — better for pasting into Apple Mail signature pane
+    $('#copyRich').addEventListener('click', async ()=>{
+      const html = $('#htmlOut').value || (await collect(), $('#htmlOut').value);
+      try {
+        const blob = new Blob([html], {type:'text/html'});
+        await navigator.clipboard.write([ new ClipboardItem({ 'text/html': blob }) ]);
+        alert('Rich HTML copied. Paste into Apple Mail signature editor.');
+      } catch (e) {
+        alert('Your browser blocked rich clipboard. Use “Copy HTML” instead.');
+      }
+    });
+
+    // Prefill with sensible defaults for quick testing
+    (function demo(){
+      $('#name').value = 'Lauren Oellermann';
+      $('#title').value = 'Operations Manager';
+      $('#company').value = 'DONUT / Press Sports';
+      $('#website').value = 'https://thedonut.co';
+      $('#email').value = 'lauren@thedonut.co';
+      $('#phone').value = '(512) 555‑0123';
+      $('#brandColor').value = '#0EB1FF';
+      $('#accentColor').value = '#FF6B6B';
+      $('#logoUrl').value = '';
+      $('#headUrl').value = '';
+      $('#cta1Label').value = 'Schedule a Call';
+      $('#cta1Href').value = 'https://calendly.com/';
+      $('#cta2Label').value = 'Webby Winner';
+      $('#cta2Href').value = 'https://www.webbyawards.com/';
+      $('#ig').value = 'https://instagram.com/';
+      $('#li').value = 'https://linkedin.com/';
+    })();
+  </script>
+</body>
+</html>
