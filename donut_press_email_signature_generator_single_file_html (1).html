@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Donut Press Media - Email Signature Generator</title>
+  <!-- UI styles (generator only) -->
+  <style>
+    :root { --bg:#0b0c10; --card:#15181d; --muted:#9aa4b2; }
+    html,body{margin:0;height:100%;background:var(--bg);color:#e8eef6;font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif}
+    .wrap{max-width:980px;margin:40px auto;padding:24px}
+    .card{background:var(--card); border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,.25); overflow:hidden}
+    .header{padding:20px 24px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .title{font-weight:700;font-size:18px}
+    .muted{color:var(--muted)}
+    .grid{display:grid;gap:18px;padding:24px}
+    @media(min-width:900px){.grid{grid-template-columns: 1.2fr .8fr}}
+    label{font-weight:600;font-size:13px;color:#c9d4e5}
+    input,textarea{width:100%;padding:10px 12px;border-radius:10px;background:#0e1116;border:1px solid #2a3140;color:#e8eef6;outline:none}
+    input::placeholder, textarea::placeholder{color:#61708a}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .btns{display:flex;gap:10px;flex-wrap:wrap}
+    button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;background:#e8eef6;color:#061018;font-weight:700}
+    button.sec{background:#2a3140;color:#e8eef6}
+    button.warn{background:#b00020; color:#fff}
+    .preview-wrap{background:#0e1116;border-top:1px solid #212837;padding:0 24px 24px}
+    .sigframe{width:100%;min-height:260px;background:#fff;border-radius:12px;overflow:auto;border:1px solid #e3e7ee}
+    .small{font-size:12px}
+    .code{white-space:pre-wrap;background:#0e1116;border:1px dashed #2a3140;padding:12px;border-radius:10px;color:#d9e3f5}
+    .hint{padding:8px 12px;border:1px solid #2a3140;border-radius:10px;background:#10141b}
+    a{color:#88c8ff}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="header"><div class="title">Donut Press Media - Email Signature Generator</div><div class="muted">Mac Mail & Gmail‑web friendly (tables + inline CSS)</div></div>
+      <div class="grid">
+        <div>
+          <div class="row">
+            <div>
+              <label>Full name</label>
+              <input id="name" placeholder="Lauren Oellermann" />
+            </div>
+            <div>
+              <label>Title</label>
+              <input id="title" placeholder="Operations Manager" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Email</label>
+              <input id="email" placeholder="lauren@donutpressmedia.co" />
+            </div>
+            <div>
+              <label>Phone</label>
+              <input id="phone" placeholder="214.926.2728" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Website</label>
+              <input id="website" placeholder="https://thedonut.co" />
+            </div>
+            <div>
+              <label>Logo URL (pre-filled)</label>
+              <input id="logoUrl" placeholder="https://lauren-donutnews.github.io/signature-generator/email_signature_logo.png" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Brand 1 label</label>
+              <input id="brand1Label" placeholder="The DONUT" />
+            </div>
+            <div>
+              <label>Brand 1 link</label>
+              <input id="brand1Href" placeholder="https://thedonut.co" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>Brand 2 label</label>
+              <input id="brand2Label" placeholder="Press Sports" />
+            </div>
+            <div>
+              <label>Brand 2 link</label>
+              <input id="brand2Href" placeholder="https://presssportsapp.com" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>CTA #1 label (button)</label>
+              <input id="cta1Label" placeholder="Schedule a Time With Me" />
+            </div>
+            <div>
+              <label>CTA #1 link</label>
+              <input id="cta1Href" placeholder="https://calendly.com/" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label>CTA #2 label (button)</label>
+              <input id="cta2Label" placeholder="Media Kit" />
+            </div>
+            <div>
+              <label>CTA #2 link</label>
+              <input id="cta2Href" placeholder="https://your-mediakit-url" />
+            </div>
+          </div>
+
+          <div class="btns" style="margin-top:8px">
+            <button id="build">Build signature</button>
+            <button class="sec" id="copyHtml">Copy HTML</button>
+            <button class="sec" id="copyRich">Copy Rich (HTML mime)</button>
+            <button class="warn" id="reset">Reset</button>
+          </div>
+          <p class="small muted hint" style="margin-top:10px">Apple Mail: <b>Mail ▸ Settings ▸ Signatures</b> → add new → <b>uncheck</b> “Always match my default message font,” then paste. Gmail‑web: Settings → See all settings → General → Signature → create new, paste, Save.</p>
+        </div>
+        <div>
+          <div class="muted small" style="margin-bottom:6px">Live preview (email white background)</div>
+          <div class="sigframe" id="preview"></div>
+          <div class="muted small" style="margin:12px 0 4px">HTML output</div>
+          <textarea id="htmlOut" class="code" rows="12" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <div class="preview-wrap">
+        <details>
+          <summary class="muted" style="cursor:pointer;padding:14px 0">Implementation notes</summary>
+          <div class="hint small">
+            • Tables + inline CSS only. No external fonts. Fixed image widths.<br/>
+            • Use hosted HTTPS images for Gmail/Outlook compatibility. Base64 intentionally omitted for simplicity.<br/>
+            • Upload a 2× logo (e.g., 120–240px) and we display at fixed 60px for crispness.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s)=>document.querySelector(s);
+    function esc(s=""){ return s.replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+
+    function emailSignatureHTML({
+      name, title, website, email, phone, logoSrc,
+      brand1Label, brand1Href, brand2Label, brand2Href,
+      cta1Label, cta1Href, cta2Label, cta2Href
+    }){
+      // Email-safe, black/white only, outline buttons. Logo on the left.
+      return `
+<!-- ===== Donut Press Media Signature ===== -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;width:100%;max-width:580px;font-family:Arial, Helvetica, sans-serif;color:#000;">
+  <tr>
+    <td style="padding:8px 0;">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">
+        <tr>
+          ${logoSrc ? `<td style="vertical-align:top;padding-right:10px"><img src="${logoSrc}" alt="Logo" width="60" style="display:block;width:60px;height:auto"/></td>` : ''}
+          <td style="vertical-align:top">
+            <div style="font-size:18px;line-height:1.2;font-weight:bold;color:#000;">${esc(name)}</div>
+            <div style="font-size:13px;color:#000;">${esc(title)}</div>
+            <div style="height:6px"></div>
+            <div style="font-size:13px;color:#000;">
+              ${email?`<div><span style="font-weight:600">Email:</span> <a href="mailto:${esc(email)}" style="color:#000;text-decoration:underline">${esc(email)}</a></div>`:''}
+              ${phone?`<div><span style="font-weight:600">Phone:</span> <a href="tel:${esc(phone)}" style="color:#000;text-decoration:underline">${esc(phone)}</a></div>`:''}
+              ${(brand1Label||brand2Label||website)?`<div style="margin-top:6px">${brand1Label&&brand1Href?`<a href="${brand1Href}" style="color:#000;text-decoration:underline">${esc(brand1Label)}</a>`:''}${brand1Label&&brand2Label?` | `:''}${brand2Label&&brand2Href?`<a href="${brand2Href}" style="color:#000;text-decoration:underline">${esc(brand2Label)}</a>`:''}${(!brand1Label&&!brand2Label&&website)?`<a href="${website}" style="color:#000;text-decoration:underline">${esc(website).replace(/^https?:\/\//,'')}</a>`:''}</div>`:''}
+            </div>
+            ${(cta1Label||cta2Label)?`<div style="margin-top:10px">
+              ${cta1Label&&cta1Href?`<a href="${cta1Href}" style="display:inline-block;border:1px solid #000;padding:8px 12px;border-radius:6px;color:#000;font-size:13px;text-decoration:none;margin-right:8px">${esc(cta1Label)}</a>`:''}
+              ${cta2Label&&cta2Href?`<a href="${cta2Href}" style="display:inline-block;border:1px solid #000;padding:8px 12px;border-radius:6px;color:#000;font-size:13px;text-decoration:none;">${esc(cta2Label)}</a>`:''}
+            </div>`:''}
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ===== /Signature ===== -->
+      `.trim();
+    }
+
+    function build(){
+      const html = emailSignatureHTML({
+        name: $('#name').value.trim(),
+        title: $('#title').value.trim(),
+        website: $('#website').value.trim(),
+        email: $('#email').value.trim(),
+        phone: $('#phone').value.trim(),
+        logoSrc: $('#logoUrl').value.trim(),
+        brand1Label: $('#brand1Label').value.trim(), brand1Href: $('#brand1Href').value.trim(),
+        brand2Label: $('#brand2Label').value.trim(), brand2Href: $('#brand2Href').value.trim(),
+        cta1Label: $('#cta1Label').value.trim(), cta1Href: $('#cta1Href').value.trim(),
+        cta2Label: $('#cta2Label').value.trim(), cta2Href: $('#cta2Href').value.trim()
+      });
+      $('#htmlOut').value = html;
+      $('#preview').innerHTML = html;
+    }
+
+    $('#build').addEventListener('click', build);
+    $('#reset').addEventListener('click', ()=>{ document.querySelectorAll('input,textarea').forEach(el=>{ el.value=''; }); $('#preview').innerHTML=''; $('#htmlOut').value=''; });
+
+    // Copy raw HTML
+    $('#copyHtml').addEventListener('click', async ()=>{
+      const html = $('#htmlOut').value || (build(), $('#htmlOut').value);
+      try { await navigator.clipboard.writeText(html); alert('HTML copied to clipboard.'); }
+      catch(e){ prompt('Copy the HTML below:', html); }
+    });
+
+    // Copy as rich HTML (MIME) — good for Apple Mail and Gmail web
+    $('#copyRich').addEventListener('click', async ()=>{
+      const html = $('#htmlOut').value || (build(), $('#htmlOut').value);
+      try {
+        const blob = new Blob([html], {type:'text/html'});
+        await navigator.clipboard.write([ new ClipboardItem({ 'text/html': blob }) ]);
+        alert('Rich HTML copied. Paste into your email client.');
+      } catch (e) {
+        alert('Your browser blocked rich clipboard. Use “Copy HTML” instead.');
+      }
+    });
+
+    // Prefill with DPM defaults
+    (function demo(){
+      $('#name').value = 'Lauren Oellermann';
+      $('#title').value = 'Operations Manager';
+      $('#email').value = 'lauren@donutpressmedia.co';
+      $('#phone').value = '214.926.2728';
+      $('#website').value = 'https://thedonut.co';
+      // If your file name still has spaces, use URL encoding for safety
+      $('#logoUrl').value = 'https://lauren-donutnews.github.io/signature-generator/SQUARE%20DONUT%20PRESS%20MEDIA%20LOGO%20(1).png';
+      $('#brand1Label').value = 'The DONUT';
+      $('#brand1Href').value = 'https://thedonut.co';
+      $('#brand2Label').value = 'Press Sports';
+      $('#brand2Href').value = 'https://presssportsapp.com';
+      $('#cta1Label').value = 'Schedule a Time With Me';
+      $('#cta1Href').value = 'https://calendly.com/';
+      $('#cta2Label').value = 'Media Kit';
+      $('#cta2Href').value = 'https://your-mediakit-url';
+    })();
+  </script>
+</body>
+</html>
